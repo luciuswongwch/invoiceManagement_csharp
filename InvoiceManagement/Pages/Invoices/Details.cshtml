@@ -1,0 +1,71 @@
+﻿@page
+
+@using InvoiceManagement.Authorization
+@using InvoiceManagement.Models
+@using Microsoft.AspNetCore.Authorization
+
+@inject IAuthorizationService AuthorizationService
+
+@model InvoiceManagement.Pages.Invoices.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h3>Details of invoice</h3>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Invoice.InvoiceAmount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Invoice.InvoiceAmount)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Invoice.InvoiceMonth)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Invoice.InvoiceMonth)
+        </dd>
+        <dt class="col-sm-2 pb-2">
+            @Html.DisplayNameFor(model => model.Invoice.InvoiceReceiver)
+        </dt>
+        <dt class="col-sm-10">
+            @Html.DisplayFor(model => model.Invoice.InvoiceReceiver)
+        </dt>
+        <dt class="col-sm-2 pb-2">
+            @Html.DisplayNameFor(model => model.Invoice.InvoiceStatus)
+        </dt>
+        <dt class="col-sm-10">
+            @Html.DisplayFor(model => model.Invoice.InvoiceStatus)
+        </dt>
+    </dl>
+</div>
+
+@{
+    var isAuthorized = await AuthorizationService.AuthorizeAsync(User, Model.Invoice, InvoiceOperation.Reject);
+
+    @if (isAuthorized.Succeeded) {
+        @if (Model.Invoice.InvoiceStatus != InvoiceStatus.Approved)
+        {
+            <form style="display: inline;" method="post">
+                <input hidden name="id" value="@Model.Invoice.Id">
+                <input hidden name="status" value="@InvoiceStatus.Approved">
+                <button type="submit" class="btn btn-xs btn-success me-2">Approve</button>
+            </form>
+        }
+        @if (Model.Invoice.InvoiceStatus != InvoiceStatus.Rejected)
+        {
+            <form style="display: inline;" method="post">
+                <input hidden name="id" value="@Model.Invoice.Id">
+                <input hidden name="status" value="@InvoiceStatus.Rejected">
+                <button type="submit" class="btn btn-xs btn-danger me-2">Reject</button>
+            </form>
+        }
+        <a asp-page="Index">
+            <button type="button" class="btn btn-secondary">Back to List</button>
+        </a>
+    }
+}

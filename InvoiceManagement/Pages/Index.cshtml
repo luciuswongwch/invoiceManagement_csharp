@@ -1,0 +1,74 @@
+﻿@page
+@using InvoiceManagement.Models
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<script src="~/js/chart.js/3.9.1/chart.min.js"></script>
+
+<div class="text-center">
+    <h3 class="display-4">Welcome to Invoice Management</h3>
+    <p>
+        Click the invoice type below to hide the chart &nbspor&nbsp;
+        <a asp-page="Invoices/Index">
+            <button class="btn btn-primary">Start by creating invoice</button>
+        </a>
+    </p>
+</div>
+
+<div style="width: 75%; margin: auto;">
+    <canvas id="indexChartJs"></canvas>
+</div>
+
+@section Scripts {
+    <script>
+        const data = {
+            labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+            datasets: [
+                {
+                    label: "Pending invoice amount",
+                    backgroundColor: "rgb(31, 81, 255, 0.75)",
+                    borderColor: "rgb(31, 81, 255, 0.75)",
+                    cubicInterpolationMode: "monotone",
+                    tension: 0.1,
+                    data: @Json.Serialize(Model.PendingInvoiceAmount)
+                },
+                {
+                    label: "Approved invoice amount",
+                    backgroundColor: "rgb(9, 121, 105, 0.75)",
+                    borderColor: "rgb(9, 121, 105, 0.75)",
+                    cubicInterpolationMode: "monotone",
+                    tension: 0.1,
+                    data: @Json.Serialize(Model.ApprovedInvoiceAmount)
+                },
+                {
+                    label: "Rejected invoice amount",
+                    backgroundColor: "rgb(196, 30, 58, 0.75)",
+                    borderColor: "rgb(196, 30, 58, 0.75)",
+                    cubicInterpolationMode: "monotone",
+                    tension: 0.1,
+                    data: @Json.Serialize(Model.RejectedInvoiceAmount)
+                }
+            ]
+        };
+
+        const config = {
+            type: "line",
+            data: data,
+            options: {
+                scales: {
+                    y: {
+                        suggestedMax: 100,
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+
+        const indexChartJs = new Chart(
+            document.getElementById("indexChartJs"),
+            config
+        );
+    </script>
+}

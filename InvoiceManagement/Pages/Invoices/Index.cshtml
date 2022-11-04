@@ -1,0 +1,77 @@
+﻿@page
+@using InvoiceManagement.Authorization
+@model InvoiceManagement.Pages.Invoices.IndexModel
+
+@inject UserManager<IdentityUser> userManager
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h3>Invoices</h3>
+<p class="float-start">Only user with manager or admin role can view invoices created by others</p>
+<a class="float-end" asp-page="./Create">
+    <button class="btn btn-primary float-end">Create new invoice</button>
+</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.InvoiceList[0].InvoiceAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvoiceList[0].InvoiceMonth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvoiceList[0].InvoiceReceiver)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InvoiceList[0].InvoiceStatus)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @if (Model.InvoiceList.Count == 0) {
+        <tr>
+            <td colspan="5">
+                <div class="text-center">
+                    <br />
+                    <p>No invoices has been created by you, start by creating your own invoices</p>
+                    <br />
+                </div>
+               
+            </td
+        </tr>
+            
+    } else {
+        @foreach (var item in Model.InvoiceList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvoiceAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvoiceMonth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvoiceReceiver)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvoiceStatus)
+                </td>
+                <td>
+                    @if(!User.IsInRole(InvoiceConstant.InvoiceManagerRole) || userManager.GetUserId(User) == item.InvoiceCreatorId) {
+                        <a asp-page="./Edit" asp-route-id="@item.Id"><button type="button" class="btn-sm btn-light">Edit</button></a>
+                    }
+                    <a class="ms-1" asp-page="./Details" asp-route-id="@item.Id"><button type="button" class="btn-sm btn-light">Details</button></a>
+                    @if(!User.IsInRole(InvoiceConstant.InvoiceManagerRole) || userManager.GetUserId(User) == item.InvoiceCreatorId) {
+                        <a class="ms-1" asp-page="./Delete" asp-route-id="@item.Id"><button type="button" class="btn-sm btn-danger">Delete</button></a>
+                    }
+                </td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
