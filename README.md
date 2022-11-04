@@ -27,7 +27,7 @@ SeedData.cs is included in .gitignore file to hide the login credentials of seed
 
 ## Deployment  
 
-Live preview: https://bookstoreluciuswong.azurewebsites.net/  
+Live preview: https://invoicemanagementluciuswong.azurewebsites.net/  
 
 Image preview:  
 
