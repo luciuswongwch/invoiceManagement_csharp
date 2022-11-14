@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+    invoicemanagement_web:
+        container_name: invoicemanagment_web
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        restart: always
+        environment:
+            - ASPNETCORE_URLS=http://+:8000
+networks:
+    default:
+        name: portfolio_network
+        external: true

@@ -27,8 +27,26 @@ SeedData.cs is included in .gitignore file to hide the login credentials of seed
 
 ## Deployment  
 
-Live preview: https://invoicemanagementluciuswong.azurewebsites.net/  
+URL: https://invoicemanagement.luciuswong.com/  
 
 Image preview:  
 
 ![invoiceManagement_snapshot.png](/invoiceManagement_snapshot.png)
+
+---
+
+Useful Certbot commands  
+
+Dry run for certificates
+
+```docker compose run --rm certbot certonly --webroot --webroot-path /var/www/certbot/ --dry-run -d invoicemanagement.luciuswong.com```
+
+Renew certificates
+
+```$ docker compose run --rm certbot renew```
+
+--- 
+
+Useful documentation  
+
+https://mindsers.blog/post/https-using-nginx-certbot-docker/
