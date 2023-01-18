@@ -25,11 +25,11 @@ SeedData.cs is included in .gitignore file to hide the login credentials of seed
 
 ---
 
-## Deployment  
+## ~~Deployment~~  
 
-URL: https://invoicemanagement.luciuswong.com/  
+~~URL: https://invoicemanagement.luciuswong.com/~~  
 
-Image preview:  
+~~Image preview:~~  
 
 ![invoiceManagement_snapshot.png](/invoiceManagement_snapshot.png)
 
